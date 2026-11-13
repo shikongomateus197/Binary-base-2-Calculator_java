@@ -4,27 +4,25 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 /**
- * ╔══════════════════════════════════════════════════════╗
- * ║         BINARY CALCULATOR  –  BIN-CALC v1.0         ║
- * ║  Base-2 Arithmetic & Bitwise Logic Engine            ║
- * ║                                                      ║
- * ║  Supported operations:                               ║
- * ║   Arithmetic  :  +  −  ×  ÷                         ║
- * ║   Bitwise     :  AND  OR  XOR  NOT                   ║
- * ║                  NAND  NOR  XNOR                     ║
- * ║   Shift       :  <<  >>                              ║
- * ║                                                      ║
- * ║  Input        :  binary digits only  (0 and 1)       ║
- * ║  Display      :  binary result + decimal equivalent  ║
- * ║  Max width    :  32 bits                             ║
- * ╚══════════════════════════════════════════════════════╝
- *
- * @author  Mateus
- * @version 1.0
+       BINARYCALCULATOR  –  BIN-CALC v1.0
+ Base-2 Arithmetic & Bitwise Logic Engine
+
+ Supported operations:
+ Arithmetic  :  +  −  ×  ÷
+ Bitwise     :  AND  OR  XOR  NOT
+                 NAND  NOR  XNOR
+ Shift       :  <<  >>
+ 
+ Input        :  binary digits only  (0 and 1)
+ Display      :  binary result + decimal equivalent
+ Max width    :  32 bits
+ 
+ @author  Mateus
+ @version 1.0
  */
 public class BinaryCalculator extends JFrame {
 
-    // ── Palette ───────────────────────────────────────────────────────────────
+    // Palette
     private static final Color BG_DARK      = new Color(10,  12,  18);
     private static final Color BG_PANEL     = new Color(18,  22,  34);
     private static final Color BG_DISPLAY   = new Color(8,   10,  16);
@@ -38,7 +36,7 @@ public class BinaryCalculator extends JFrame {
     private static final Color TEXT_PRIMARY = new Color(210, 230, 255);
     private static final Color TEXT_DIM     = new Color(80,  100, 130);
 
-    // ── Fonts ─────────────────────────────────────────────────────────────────
+    // Fonts
     private static final Font F_DISPLAY = new Font("Courier New", Font.BOLD,  30);
     private static final Font F_DECIMAL = new Font("Courier New", Font.PLAIN, 13);
     private static final Font F_LABEL   = new Font("Courier New", Font.BOLD,  10);
@@ -46,21 +44,20 @@ public class BinaryCalculator extends JFrame {
     private static final Font F_BTN_SM  = new Font("Courier New", Font.BOLD,  12);
     private static final Font F_HIST    = new Font("Courier New", Font.PLAIN, 11);
 
-    // ── State ─────────────────────────────────────────────────────────────────
+    // State
     private String  currentInput = "0";
     private String  firstOperand = null;
     private String  operator     = null;
     private boolean newEntry     = true;
     private boolean errorState   = false;
 
-    // ── UI Widgets ────────────────────────────────────────────────────────────
+    // UI Widgets
     private JLabel    displayLabel;
     private JLabel    decimalLabel;
     private JLabel    operatorLabel;
     private JLabel    firstOpLabel;
     private JTextArea historyArea;
 
-    // =========================================================================
     public BinaryCalculator() {
         super("Binary Calculator  //  BIN-CALC v1.0");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,9 +77,7 @@ public class BinaryCalculator extends JFrame {
         setVisible(true);
     }
 
-    // =========================================================================
     // UI – Header
-    // =========================================================================
     private JPanel makeHeader() {
         JPanel p = new JPanel(new BorderLayout());
         p.setBackground(BG_DARK);
@@ -104,9 +99,7 @@ public class BinaryCalculator extends JFrame {
         return p;
     }
 
-    // =========================================================================
     // UI – Left column  (display + buttons)
-    // =========================================================================
     private JPanel makeLeft() {
         JPanel p = new JPanel(new BorderLayout(0, 10));
         p.setBackground(BG_DARK);
@@ -115,7 +108,7 @@ public class BinaryCalculator extends JFrame {
         return p;
     }
 
-    // ── Display ───────────────────────────────────────────────────────────────
+    // Display
     private JPanel makeDisplay() {
         JPanel card = new RoundCard(BG_PANEL, 14);
         card.setLayout(new BorderLayout(0, 2));
@@ -165,7 +158,7 @@ public class BinaryCalculator extends JFrame {
         return card;
     }
 
-    // ── Button grid ───────────────────────────────────────────────────────────
+    // Button grid
     private JPanel makeButtons() {
         JPanel g = new JPanel(new GridLayout(7, 4, 6, 6));
         g.setBackground(BG_DARK);
@@ -206,9 +199,7 @@ public class BinaryCalculator extends JFrame {
         return g;
     }
 
-    // =========================================================================
     // UI – History panel
-    // =========================================================================
     private JPanel makeHistory() {
         JPanel card = new RoundCard(BG_PANEL, 14);
         card.setLayout(new BorderLayout(0, 8));
@@ -246,9 +237,7 @@ public class BinaryCalculator extends JFrame {
         return card;
     }
 
-    // =========================================================================
     // Button factories
-    // =========================================================================
     private JButton dBtn(String label) {
         return btn(label, BTN_NUM, TEXT_PRIMARY, F_BTN, e -> appendDigit(label));
     }
@@ -284,12 +273,9 @@ public class BinaryCalculator extends JFrame {
         b.addActionListener(al);
         return b;
     }
-
-    // =========================================================================
     // Calculator Logic
-    // =========================================================================
 
-    /** Append a binary digit (0 or 1) to the current input. */
+    // Append a binary digit (0 or 1) to the current input. */
     private void appendDigit(String d) {
         if (errorState) clearAll();
         if (newEntry)   { currentInput = "0"; newEntry = false; }
@@ -365,9 +351,7 @@ public class BinaryCalculator extends JFrame {
         }
     }
 
-    /**
-     * Evaluate the pending binary expression and update the display.
-     */
+    // Evaluate the pending binary expression and update the display.
     private void calculate() {
         if (operator == null || firstOperand == null || errorState) return;
 
@@ -423,9 +407,7 @@ public class BinaryCalculator extends JFrame {
         }
     }
 
-    // =========================================================================
     // Display helpers
-    // =========================================================================
 
     private void refreshDisplay() {
         displayLabel.setText(formatBinary(currentInput));
@@ -441,8 +423,8 @@ public class BinaryCalculator extends JFrame {
     }
 
     /**
-     * Insert a space every 4 bits for readability.
-     * "11001010"  →  "1100 1010"
+    Insert a space every 4 bits for readability.
+    "11001010"  →  "1100 1010"
      */
     private String formatBinary(String bin) {
         if (bin.length() <= 4) return bin;
@@ -468,9 +450,7 @@ public class BinaryCalculator extends JFrame {
         historyArea.setCaretPosition(historyArea.getDocument().getLength());
     }
 
-    // =========================================================================
     // Rounded card panel
-    // =========================================================================
     private static class RoundCard extends JPanel {
         private final int r;
         RoundCard(Color bg, int radius) {
@@ -490,9 +470,7 @@ public class BinaryCalculator extends JFrame {
         }
     }
 
-    // =========================================================================
     // Entry point
-    // =========================================================================
     public static void main(String[] args) {
         System.setProperty("sun.awt.noerasebackground", "true");
         try {
